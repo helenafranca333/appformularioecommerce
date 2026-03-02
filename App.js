@@ -17,8 +17,8 @@ export default function App() {
 const[nome,setNome] = useState('');
 const[telefone,setTelefone] = useState('');
 const[sexo,setSexo] = useState(0);
-const[limite,setLimite] = useState(150);
-const[estudante,setEstudante] = useState(false);
+const[avaliaçao,setavaliaçao] = useState(10);
+const[avaliAno,setavaliAno] = useState(false);
 const sexos=[
 {sexoNome: 'Masculino', Valor: 1},
 {sexoNome: 'Feminino', Valor: 2},
@@ -36,25 +36,21 @@ function enviarDados(){
   else{
     alert('Nome: ' + nome + '\n\n' +
           'Telefone: ' + telefone + '\n' +
-          'Limite: ' + limite.toFixed(2) + '\n'+
+          'avaliaçao: ' + avaliaçao.toFixed(2) + '\n'+
           'Sexo: ' + sexos[sexo].sexoNome + '\n'+
-          'Estudante: ' + (estudante ? 'Ativo' : 'Inativo')
+          'avaliando anonimamente: ' + (avaliAno ? 'sim' : 'nao')
     )
   }
 }
 
-
-
-  //para colocar alinhado o botão do switch sobre a linha , usado somente qdo executado via web
   const isWeb = typeof navigator !== "undefined" && navigator.userAgent;
 
-   //Para colocar Máscara no telefone ao digitar
 
   const formatPhoneNumber = (text) => {
-    // Remove todos os caracteres que não são números
+    
     let cleaned = text.replace(/\D/g, '');
   
-    // Formata o telefone para o padrão (XX) XXXXX-XXXX
+   
     if (cleaned.length > 10) {
       return cleaned.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
     } else if (cleaned.length > 6) {
@@ -100,12 +96,12 @@ function enviarDados(){
     <View>
      <Text style={styles.textoNome}>Digite seu telefone:</Text>
       <TextInput
-        style={{ borderBottomWidth: 1, padding: 10, fontSize: 16 }}
+        style={{ borderBottomWidth: 1, padding: 10, fontSize: 16 , backgroundColor:'white',borderRadius:'10px'}}
         placeholder="(99) 99999-9999"
         keyboardType="numeric"
         value={telefone}
         onChangeText={(text) => setTelefone(formatPhoneNumber(text))}
-        maxLength={15} // Evita que o usuário digite além do limite
+        maxLength={15} 
       />
    </View>
 
@@ -122,36 +118,36 @@ function enviarDados(){
         </Picker>
       </View>
 
-      <View style={styles.limiteArea}>
-        <Text style={styles.textoNome}>Seu Limite:</Text>
-        <Text style={styles.limiteTexto}>R${limite.toFixed(0)}</Text> 
+      <View style={styles.avaliaçaoArea}>
+        <Text style={styles.textoNome}>Seu avaliaçao:</Text>
+        <Text style={styles.avaliaçaoTexto}>🌟{avaliaçao.toFixed(0)}</Text> 
 
       </View>
 
       <View style={styles.areaSlider}>
         <Slider
           minimumTrackTintColor= "#cf00b3ff"
-          minimumValue={250}
-          maximumValue={4000}
-          value={limite}
-          onValueChange={(limite) => setLimite(limite)}                    
+          minimumValue={0}
+          maximumValue={10}
+          value={avaliaçao}
+          onValueChange={(avaliaçao) => setavaliaçao(avaliaçao)}                    
         >     
         </Slider>
       </View>
 
-        <View style={styles.areaEstudante}>
-          <Text style={styles.textoNome}>Estudante:</Text>
+        <View style={styles.areaavaliAno}>
+          <Text style={styles.textoNome}>Avaliar anonimamente?</Text>
           <Switch 
             style={isWeb ? { transform: [{ translateY: -2 }]} : {} }
             trackColor={{ false: "#ffffffff", true: "#9d4eb1ff" }}
             thumbColor="#d3a"
-            value={estudante}
-            onValueChange={estudante => setEstudante(estudante)}
+            value={avaliAno}
+            onValueChange={avaliAno => setavaliAno(avaliAno)}
             >
           </Switch>
 
       <TouchableOpacity style={styles.botao} onPress={enviarDados}  >
-        <Text style={styles.botaoTexto}>Abrir Conta</Text>
+        <Text style={styles.botaoTexto}>Avaliar</Text>
        
       </TouchableOpacity>
 
@@ -172,6 +168,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     alignItems: 'center',
   
+  },
+  input:{
+    backgroundColor:"rgba(255, 255, 255, 0.85)",
+    borderRadius:'20px'
   },
 areaformulario: {
   width: width * 0.9,   
@@ -199,17 +199,17 @@ areaformulario: {
 pickerSexo:{
   flex:1
 },
-limiteArea:{
+avaliaçaoArea:{
   flexDirection:'row',
   paddingBottom: 5,
 },
-limiteTexto:{
+avaliaçaoTexto:{
   color: '#ff0090ff',
   fontSize: 17,
   fontWeight: 'bold',
   paddingLeft: 5,
 },
-areaEstudante:{
+areaavaliAno:{
   alignItems: 'center',
   justifyContent: 'center',
  
